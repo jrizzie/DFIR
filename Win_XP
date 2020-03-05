@@ -58,7 +58,7 @@ View forensic evidence of malware--
 -- Files Created: Capturebat
 -- Reg Keys created/modified: Capturebat
 -- External Connex attempts:  Wireshark, netstat (baseline --> current), TCPView, Process Explorer (tcp/ip tab)
--- Information Passed over network:  Wireshark & netcat -l -n -p <PORT REQUESTED>
+-- Information Passed over network:  Wireshark & netcat -l -n -p <PORT REQUESTED from malware>
     -- If over 6667; ircd start
     -- If need to silence some traffic; edit /etc/hosts file with "127.0.0.1    domain_requested"
 -- Document significant details:
