@@ -1,0 +1,70 @@
+Windows XP - DFIR
+- Key Tools:
+
+Static Analysis:
+====================================
+- MD5sum
+- PEiD
+- BinText
+
+Dynamic Analysis: (activate malware)
+====================================
+- *Multiple SysInternals*:
+  - Process Explorer
+  - Process Monitor
+  - Autoruns
+- Netcat
+- WireShark
+- fakedns (or simply configure C:\Windows\System32\drivers\etc\hosts file to match domains being called)
+
+********************************************************************************
+DFIR METHODOLOGY
+********************************************************************************
+
+1. Hashes (md5sum of original file and any newly created processes (.exe's, dll's)
+2. Packing/Compiling
+PEiD = Check for Packers & Compilers.
+    Packers = ASPack, EXECryptor, PECompact, PEScrambler, SVKP, UPX, and WinUpack
+    Compilers = LCC, C++, etc...
+     - Download:  http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml#download
+BinText = Collect clear text strings from the binary
+    Significant strings = reg keys, domains, ips, commands
+    - Download: http://b2b-download.mcafee.com/products/tools/foundstone/bintext303.zip
+3. Process Monitoring
+Process Explorer
+  - View tabs (tcp/ip, strings: image|memory) 
+Process Monitor
+  - Download: https://docs.microsoft.com/en-us/sysinternals/downloads/
+CaptureBat.exe
+  - THIS SHOULD BE THE LAST THING YOU START (PRIOR TO ACTIVATING MALWARE)
+  - Download:  https://github.com/MalwareLu/malware-lu/tree/master/tools (capturebat setup 5574)
+  - Requires C++ Redistributable (x86) -- https://www.microsoft.com/en-us/download/details.aspx?id=30679
+Autoruns
+  - Download: https://docs.microsoft.com/en-us/sysinternals/downloads/
+  - File--> Save Image
+  - *After malware activation; refresh; File --> Compare new autoruns with old file*
+ Others-->
+      - netstat -ano
+      - tasklist [/svc]
+ 4. Network Monitoring
+Start Wireshark
+
+========================   ACTIVATE MALWARE   ========================
+-- Return to XP, Watch Process Explorer
+    IF* you need to trick Malware to avoid VM detection
+    DELETE REG KEY:  HKLM\Software\*\VMWare, Inc
+View forensic evidence of malware--
+-- Processes & Child Processes:  Process Explorer & Capturebat
+-- Files Created: Capturebat
+-- Reg Keys created/modified: Capturebat
+-- External Connex attempts:  Wireshark, netstat (baseline --> current), TCPView, Process Explorer (tcp/ip tab)
+-- Information Passed over network:  Wireshark & netcat -l -n -p <PORT REQUESTED>
+    -- If over 6667; ircd start
+    -- If need to silence some traffic; edit /etc/hosts file with "127.0.0.1    domain_requested"
+-- Document significant details:
+    -- file name changes and/or processes created/deleted with each execution
+    -- can it allow for multiple instances
+    -- any persistence mechanisms found
+
+ 
+  
