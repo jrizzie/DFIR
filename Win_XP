@@ -61,6 +61,7 @@ View forensic evidence of malware--
 -- Information Passed over network:  Wireshark & netcat -l -n -p <PORT REQUESTED from malware>
     -- If over 6667; ircd start
     -- If need to silence some traffic; edit /etc/hosts file with "127.0.0.1    domain_requested"
+    -- Wireshark: After Connection; [Follow TCP-stream]
 -- Document significant details:
     -- file name changes and/or processes created/deleted with each execution
     -- can it allow for multiple instances
