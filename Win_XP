@@ -16,7 +16,8 @@ Dynamic Analysis: (activate malware)
 On LISTENING machine:  (SIFT Workstation, REMNUX, etc.)
 - Netcat
 - WireShark
-- fakedns (or configure victim machine DNS hosts: C:\Windows\System32\drivers\etc\hosts)
+If LISTENING machine is REMNUX: use fakedns
+If LISTENING machine is SIFT: configure victim machine DNS hosts: C:\Windows\System32\drivers\etc\hosts); point C2-domains to SIFT.
 
 ********************************************************************************
 DFIR METHODOLOGY
