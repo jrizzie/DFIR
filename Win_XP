@@ -13,16 +13,17 @@ Dynamic Analysis: (activate malware)
   - Process Explorer
   - Process Monitor
   - Autoruns
+On LISTENING machine:  (SIFT Workstation, REMNUX, etc.)
 - Netcat
 - WireShark
-- fakedns (or simply configure C:\Windows\System32\drivers\etc\hosts file to match domains being called)
+- fakedns (or configure victim machine DNS hosts: C:\Windows\System32\drivers\etc\hosts)
 
 ********************************************************************************
 DFIR METHODOLOGY
 ********************************************************************************
 
-1. Hashes (md5sum of original file and any newly created processes (.exe's, dll's)
-2. Packing/Compiling
+Hashes (md5sum of original file and any newly created processes (.exe's, dll's)
+Packing/Compiling
 PEiD = Check for Packers & Compilers.
     Packers = ASPack, EXECryptor, PECompact, PEScrambler, SVKP, UPX, and WinUpack
     Compilers = LCC, C++, etc...
@@ -30,7 +31,12 @@ PEiD = Check for Packers & Compilers.
 BinText = Collect clear text strings from the binary
     Significant strings = reg keys, domains, ips, commands
     - Download: http://b2b-download.mcafee.com/products/tools/foundstone/bintext303.zip
-3. Process Monitoring
+Process Monitoring
+  - ProcMon
+  - filters: 
+    # Process name IS "malware.exe"
+    # Operation IS regsetvalue
+    # Path CONTAINS "reg-key name set by malware"
 Process Explorer
   - View tabs (tcp/ip, strings: image|memory) 
 Process Monitor
@@ -46,8 +52,8 @@ Autoruns
  Others-->
       - netstat -ano
       - tasklist [/svc]
- 4. Network Monitoring
-Start Wireshark
+Network Monitoring
+- Wireshark
 
 ========================   ACTIVATE MALWARE   ========================
 -- Return to XP, Watch Process Explorer
@@ -58,7 +64,16 @@ View forensic evidence of malware--
 -- Files Created: Capturebat
 -- Reg Keys created/modified: Capturebat
 -- External Connex attempts:  Wireshark, netstat (baseline --> current), TCPView, Process Explorer (tcp/ip tab)
--- Information Passed over network:  Wireshark & netcat -l -n -p <PORT REQUESTED from malware>
+If malware is encrypted with XOR values; then:
+
+XOR Stuff------>
+> xorsearch "malware.exe" <stringname>
+> replace <stringname> with strings found in bintext
+-- this may reveal new strings you did not see before.  Example:  tnnbtib.exe-- new strings are !@login <newstringfound>
+--#
+-- Investigate information passed over network:  
+#> sudo Wireshark  
+#> netcat -l -n -p <PORT REQUESTED from malware>
     -- If over 6667; ircd start
     -- If need to silence some traffic; edit /etc/hosts file with "127.0.0.1    domain_requested"
     -- Wireshark: After Connection; [Follow TCP-stream]
