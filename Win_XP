@@ -66,11 +66,17 @@ View forensic evidence of malware--
 -- External Connex attempts:  Wireshark, netstat (baseline --> current), TCPView, Process Explorer (tcp/ip tab)
 If malware is encrypted with XOR values; then:
 
-XOR Stuff------>
-> xorsearch "malware.exe" <stringname>
-> replace <stringname> with strings found in bintext
+============ UNPACK THE MALWARE ==============
+tnnbtib.exe can be unpacked.
+#> UPX -d tnnbtib.exe
+the output might overwrite the previous copy of the malware.
+============ XOR Stuff ==============
+> xorsearch "malware.exe" <stringname_found_in_bintext>
+> xorsearch "tnnbtib.exe" -s malware
+-- these commands will find the xor value.  the second command will output contents to a file in the current working directory.
 -- this may reveal new strings you did not see before.  Example:  tnnbtib.exe-- new strings are !@login <newstringfound>
---#
+============ # ==============
+
 -- Investigate information passed over network:  
 #> sudo Wireshark  
 #> netcat -l -n -p <PORT REQUESTED from malware>
